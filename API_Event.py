@@ -2,12 +2,19 @@ import pandas as pd
 import geohash2 as geohash
 from apify_client import ApifyClient
 
-# Load the dataset with the correct separator
+# Load the dataset with the correct separator and drop unnecessary columns
 cities_df = pd.read_csv('geonames-all-cities-with-a-population-500.csv', sep=';')
+
+# Convert city names, country names, and country codes to lowercase for easier case-insensitive lookup
+cities_df['Name'] = cities_df['Name'].str.lower()
+cities_df['Country'] = cities_df['Country'].str.lower()
+cities_df['Country Code'] = cities_df['Country Code'].str.lower()
 
 # Function to get latitude, longitude, and country code of a city from the dataset
 def get_city_info(city_name, country_name=None):
+    city_name = city_name.lower()  # Ensure case-insensitive comparison for city name
     if country_name:
+        country_name = country_name.lower()  # Ensure case-insensitive comparison for country name
         city_data = cities_df[(cities_df['Name'] == city_name) & (cities_df['Country'] == country_name)]
     else:
         city_data = cities_df[cities_df['Name'] == city_name]
@@ -30,7 +37,7 @@ def extract_event_info(event):
         'name': event.get('name', 'N/A'),
         'description': event.get('description', 'N/A'),
         'date': f"{event.get('dateTitle', 'N/A')} {event.get('dateSubTitle', 'N/A')}",
-        'location': f"{event.get('streetAddress', 'N/A')}, {event.get('addressLocality', 'N/A')}, {event.get('addressRegion', 'N/A')}, {event.get('postalCode', 'N/A')}, {event.get('addressCountry', 'N/A')}",
+        'location': f"{event.get('streetAddress', 'N/A')}, {event.get('addressLocality', 'N/A')}, {event.get('addressRegion', 'N/A')}, {event.get('postalCode', 'N/A')}, {event.get('addressCountry', 'N/A')} ",
         'price': f"{event.get('offer', {}).get('price', 'N/A')} {event.get('offer', {}).get('priceCurrency', 'N/A')}",
         'ticket_url': event.get('url', 'N/A')
     }
