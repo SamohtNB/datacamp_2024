@@ -1,0 +1,7 @@
+streamlit
+pandas
+pydeck
+geohash2
+apify-client
+opencage
+numpy
