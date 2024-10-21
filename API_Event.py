@@ -2,8 +2,8 @@ import pandas as pd
 import geohash2 as geohash
 from apify_client import ApifyClient
 
-# Load the dataset with the correct separator and drop unnecessary columns
-cities_df = pd.read_csv('geonames-all-cities-with-a-population-500.csv', sep=';')
+# Load the cleaned dataset
+cities_df = pd.read_csv('cleaned_cities_with_country.csv')
 
 # Convert city names, country names, and country codes to lowercase for easier case-insensitive lookup
 cities_df['Name'] = cities_df['Name'].str.lower()
@@ -37,7 +37,7 @@ def extract_event_info(event):
         'name': event.get('name', 'N/A'),
         'description': event.get('description', 'N/A'),
         'date': f"{event.get('dateTitle', 'N/A')} {event.get('dateSubTitle', 'N/A')}",
-        'location': f"{event.get('streetAddress', 'N/A')}, {event.get('addressLocality', 'N/A')}, {event.get('addressRegion', 'N/A')}, {event.get('postalCode', 'N/A')}, {event.get('addressCountry', 'N/A')} ",
+        'location': f"{event.get('streetAddress', 'N/A')}, {event.get('addressLocality', 'N/A')}, {event.get('addressRegion', 'N/A')}, {event.get('postalCode', 'N/A')}, {event.get('addressCountry', 'N/A')}",
         'price': f"{event.get('offer', {}).get('price', 'N/A')} {event.get('offer', {}).get('priceCurrency', 'N/A')}",
         'ticket_url': event.get('url', 'N/A')
     }
@@ -82,7 +82,8 @@ def fetch_events_for_city(city_name, country_name=None):
         print(e)
 
 # Example usage
-city_name = input("Enter the city name: ")
-country_name = input("Enter the country name (or leave blank for automatic lookup): ") or None
+if __name__ == "__main__":
+    city_name = input("Enter the city name: ")
+    country_name = input("Enter the country name (or leave blank for automatic lookup): ") or None
 
-fetch_events_for_city(city_name, country_name)
+    fetch_events_for_city(city_name, country_name)
