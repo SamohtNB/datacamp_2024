@@ -1,4 +1,5 @@
 Plan It Now - Event Finder Application
+
 Plan It Now is a web-based application that helps users discover events in different cities.
 
 Features
