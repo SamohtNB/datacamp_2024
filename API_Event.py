@@ -7,6 +7,8 @@ from opencage.geocoder import OpenCageGeocode
 import numpy as np
 import time
 
+st.set_page_config(page_title="Plan It Now", page_icon="logo.png")
+
 # Initialize the ApifyClient with your API token
 client = ApifyClient("apify_api_UNa2lFVCITf33GSeJTwKeWKskH3euP0T4jWR")
 
@@ -150,9 +152,21 @@ def display_events(events):
                 st.write(f"**Coordinates**: Latitude = {event['latitude']}, Longitude = {event['longitude']}")
                 st.write(f"[Buy Tickets]({event['ticket_url']})")
 
-# Streamlit layout
-st.title("Events and Map")
-st.write("Welcome! Explore events in your city.")
+# Streamlit layout with customizations
+# Add logo
+col1, col2, col3 = st.columns([1, 2, 1])  # Three columns for centering
+with col2:
+    st.markdown("<h1 style='text-align: center;'>Plan It Now</h1>", unsafe_allow_html=True)
+
+# Logo centered
+col1, col2, col3 = st.columns([1, 2, 1])
+with col2:
+    st.image("logo.png", width=300)  # Adjust the path if needed
+
+# Phrase or accroche centered
+col1, col2, col3 = st.columns([1, 2, 1])
+with col2:
+    st.markdown("<h3 style='text-align: center;'>Find what you can do today!</h3>", unsafe_allow_html=True)
 
 # Country selection with a placeholder option
 country = st.selectbox("Select a country", ["Choose an option"] + list(np.sort(cities_df['Country'].unique())), index=0)
