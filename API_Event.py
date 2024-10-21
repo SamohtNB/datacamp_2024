@@ -7,6 +7,8 @@ from opencage.geocoder import OpenCageGeocode
 import numpy as np
 import time
 
+st.set_page_config(page_title="Plan It Now", page_icon="logo.png")
+
 # Initialize the ApifyClient with your API token
 client = ApifyClient("apify_api_UNa2lFVCITf33GSeJTwKeWKskH3euP0T4jWR")
 
