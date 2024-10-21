@@ -2,7 +2,6 @@ streamlit
 pandas
 pydeck
 geohash2
-apify_client
-opencage.geocoder
+apify-client
+opencage
 numpy
-time
